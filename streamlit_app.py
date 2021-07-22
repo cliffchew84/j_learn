@@ -29,21 +29,20 @@ def pull_data(worksheet_name):
 
 sh = pull_data('Eng-Jpn Anki')
 
-list_of_worksheets = [str(i).split(" ")[1].replace("'", "") for i in sh.worksheets()]
-
-st.set_page_config(layout="wide")
+wk_list = [str(i).split(" ")[1].replace("'", "") for i in sh.worksheets()]
+wk_list = [i for i in wk_list if "HIDE" not in i]
 
 ############ Filter to get the necessary ############
-
+# st.set_page_config(layout="wide")
 option = st.selectbox(
-     'Please select the word list',
-     tuple(list_of_worksheets))
+     'Select a word list',
+     tuple(wk_list))
 
 wks = sh.worksheet_by_title(option)
 df = wks.get_as_df(has_header=False)
 final = df.copy()
 
-st.write("No of records : {}".format(final.shape[0]))
+st.write("Words | Phrases : {}".format(final.shape[0]))
 
 # ############ Creating table views ############
 t_views = list()
