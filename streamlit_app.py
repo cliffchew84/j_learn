@@ -66,11 +66,11 @@ ltable = go.Figure(data=[go.Table(
 ltable.update_layout(
     height=500,
     margin=dict(
-        l=10, #left margin
-        r=5, #right margin
-        b=10, #bottom margin
-        t=10  #top margin
+        l=50, #left margin
+        r=50, #right margin
+        b=50, #bottom margin
+        t=50  #top margin
     )
 )
 
-st.plotly_chart(ltable, use_container_width=True)
+st.plotly_chart(ltable)
