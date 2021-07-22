@@ -8,7 +8,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 ############ Connect to Google Sheets to get data ############
-json_encode = os.environ['g_cred'].replace("\\\\", "\\").encode('utf-8')
+# json_encode = os.environ['g_cred'].replace("\\\\", "\\").encode('utf-8')
+json_encode = st.secrets['g_cred'].replace("\\\\", "\\").encode('utf-8')
 
 def _google_creds_as_file():
     temp = tempfile.NamedTemporaryFile()
