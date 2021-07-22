@@ -51,11 +51,12 @@ for cols in final.columns:
 
 ltable = go.Figure(data=[go.Table(
     header=dict(values=['Eng', 'Jpn'],
-                font=dict(color='white'),
+                font=dict(color='white', size=14),
                 line_color='#009688',
                 fill_color='#039BE5',
                 align='left'),
     cells=dict(values=t_views,
+               font=dict(size=14),
                line_color='darkslategray',
                fill_color='#E0F0F7',
                align='left'))
