@@ -27,24 +27,22 @@ def pull_data(worksheet_name):
     gc = pygsheets.authorize(service_account_file=creds_file.name)
     return gc.open(worksheet_name)
 
-sh = pull_data('NLB Project')
+sh = pull_data('Eng-Jpn Anki')
 
 wk_list = [str(i).split(" ")[1].replace("'", "") for i in sh.worksheets()]
+wk_list = [i for i in wk_list if "HIDE" not in i]
 
 ############ Filter to get the necessary ############
-st.set_page_config(layout="wide")
+# st.set_page_config(layout="wide")
+option = st.selectbox(
+     'Select a word list',
+     tuple(wk_list))
 
-wks = sh.worksheet_by_title("All")
-df = wks.get_as_df(has_header=True)
-final = df[df.availability == "Available"][['library', 'title', 'number']]
+wks = sh.worksheet_by_title(option)
+df = wks.get_as_df(has_header=False)
+final = df.copy()
 
-lib_select = st.selectbox(
-     'Select Library',
-     tuple(df.library.tolist()))
-
-final = final[final['library'] == lib_select]
-
-st.write("Book : {}".format(final.shape[0]))
+st.write("Words | Phrases : {}".format(final.shape[0]))
 
 # ############ Creating table views ############
 t_views = list()
@@ -52,7 +50,7 @@ for cols in final.columns:
     t_views.append(final[cols])
 
 ltable = go.Figure(data=[go.Table(
-    header=dict(values=['Library', 'Title', 'Code'],
+    header=dict(values=['Eng', 'Jpn'],
                 font=dict(color='white', size=14),
                 line_color='#009688',
                 fill_color='#039BE5',
