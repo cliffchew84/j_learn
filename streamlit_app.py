@@ -42,7 +42,7 @@ lib_select = st.selectbox(
      'Select Library',
      tuple(df.library.tolist()))
 
-final = final[final['library'] == lib_select]
+final = final[final['library'] == lib_select].drop_duplicates()
 
 st.write("Book : {}".format(final.shape[0]))
 
