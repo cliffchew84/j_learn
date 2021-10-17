@@ -40,7 +40,7 @@ final = df[df.availability == "Available"][['library', 'title', 'number']]
 
 lib_select = st.selectbox(
      'Select Library',
-     tuple(df.library.tolist()))
+     tuple(df.library.drop_duplicates().tolist()))
 
 final = final[
     final['library'] == lib_select].drop_duplicates().sort_values('title')
