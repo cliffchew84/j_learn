@@ -48,7 +48,9 @@ final = final[
     final['library'] == lib_select].drop_duplicates().sort_values('title')
 
 if len(search_text) > 0:
-    final = final[final.title.str.lower().contains(search_text)]
+    final['title_lower'] = final['title'].str.lower()
+    final = final[final.title_lower.str.contains(search_text)]
+    del final['title_lower']
 
 
 st.write("Book : {}".format(final.shape[0]))
