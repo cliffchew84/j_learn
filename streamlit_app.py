@@ -42,7 +42,7 @@ lib_select = st.selectbox(
      'Select Library',
      tuple(df.library.drop_duplicates().tolist()))
 
-search_text = st.text_input("")
+search_text = st.text_input(label="Title Search")
 
 final = final[
     final['library'] == lib_select].drop_duplicates().sort_values('title')
