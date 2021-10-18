@@ -62,7 +62,11 @@ def make_clickable(text, link):
 
 # link is the column with hyperlinks
 final['title'] = [make_clickable(text, url) for text, url in zip(final['title'], final['url'])]
+
 del final['url']
+del final['library']
+final.reset_index(drop=True)
+
 final_table = final.to_html(escape=False)
 
 st.write("Book : {}".format(final.shape[0]))
