@@ -8,6 +8,8 @@ from sys import platform
 import plotly.express as px
 import plotly.graph_objects as go
 
+pd.set_option('display.max_colwidth',None)
+
 ############ Connect to Google Sheets to get data ############
 if platform == "darwin":
     json_encode = os.environ['g_cred'].replace("\\\\", "\\").encode('utf-8')
@@ -36,7 +38,8 @@ st.set_page_config(layout="wide")
 
 wks = sh.worksheet_by_title("All")
 df = wks.get_as_df(has_header=True)
-final = df[df.availability == "Available"][['library', 'title', 'number']]
+final = df[df.availability == "Available"][
+    ['library', 'title', 'number', 'url']]
 
 lib_select = st.selectbox(
      'Select Library',
@@ -52,36 +55,15 @@ if len(search_text) > 0:
     final = final[final.title_lower.str.contains(search_text)]
     del final['title_lower']
 
+def make_clickable(text, link):
+    # target _blank to open new window
+    # extract clickable text to display for your link
+    return f'<a target="_blank" href="{link}">{text}</a>'
+
+# link is the column with hyperlinks
+final['title'] = [make_clickable(text, url) for text, url in zip(final['title'], final['url'])]
+del final['url']
+final_table = final.to_html(escape=False)
 
 st.write("Book : {}".format(final.shape[0]))
-
-# ############ Creating table views ############
-t_views = list()
-for cols in final.columns:
-    t_views.append(final[cols])
-
-ltable = go.Figure(data=[go.Table(
-    header=dict(values=['Library', 'Title', 'Code'],
-                font=dict(color='white', size=14),
-                line_color='#009688',
-                fill_color='#039BE5',
-                align='left'),
-    cells=dict(values=t_views,
-               font=dict(size=14),
-               line_color='darkslategray',
-               fill_color='#E0F0F7',
-               align='left'))
-])
-
-# ltable.update_traces(columnwidth=[1,1])
-ltable.update_layout(
-    height=500,
-    margin=dict(
-        l=10, #left margin
-        r=10, #right margin
-        b=10, #bottom margin
-        t=10  #top margin
-    )
-)
-
-st.plotly_chart(ltable, use_container_width=True)
+st.write(final_table, unsafe_allow_html=True)
