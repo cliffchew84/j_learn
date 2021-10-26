@@ -65,7 +65,6 @@ def make_clickable(text, link):
 final['title'] = [make_clickable(text, url) for text, url in zip(final['title'], final['url'])]
 
 del final['url']
-del final['library']
 final = final.reset_index(drop=True)
 
 final_table = final.to_html(escape=False)
