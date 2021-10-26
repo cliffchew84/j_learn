@@ -43,7 +43,7 @@ final = df[df.availability == "Available"][
 
 lib_select = st.selectbox(
      'Select Library',
-     tuple(df.library.drop_duplicates().tolist()) + ["All", ])
+     tuple(df.library.drop_duplicates().tolist() + ["All", ]))
 
 search_text = st.text_input(label="Title Search").lower()
 
