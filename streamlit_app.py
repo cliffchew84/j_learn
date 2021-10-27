@@ -46,7 +46,13 @@ lib_select = st.selectbox(
      tuple(df.library.drop_duplicates().tolist() + ["All", ]))
 
 search_text = st.text_input(label="Title Search").lower()
-lib_col = st.button("Library")
+
+lib_col = True
+if st.button("Library"):
+    if lib_col == True:
+        lib_col = False
+    else:
+        lib_col = True
 
 if lib_select != 'All':
     final = final[
