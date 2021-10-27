@@ -46,7 +46,13 @@ lib_select = st.selectbox(
      tuple(df.library.drop_duplicates().tolist() + ["All", ]))
 
 search_text = st.text_input(label="Title Search").lower()
-lib_col = st.button("Library")
+
+lib_col = True
+if st.checkbox("Library"):
+    if lib_col == True:
+        lib_col = False
+    else:
+        lib_col = True
 
 if lib_select != 'All':
     final = final[
@@ -68,8 +74,8 @@ final['title'] = [make_clickable(text, url) for text, url in zip(final['title'],
 del final['url']
 if lib_col:
     del final['library']
-final = final.reset_index(drop=True)
 
+final = final.reset_index(drop=True)
 final_table = final.to_html(escape=False)
 
 st.write("Book : {}".format(final.shape[0]))
