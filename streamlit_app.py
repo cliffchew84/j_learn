@@ -75,7 +75,7 @@ del final['url']
 if lib_col:
     del final['library']
 
-final = final.reset_index(drop=True)
+final = final.sort_values("number").reset_index(drop=True)
 final_table = final.to_html(escape=False)
 
 st.write("Book : {}".format(final.shape[0]))
